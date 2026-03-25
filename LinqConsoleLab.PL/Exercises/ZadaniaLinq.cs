@@ -1,4 +1,5 @@
 using LinqConsoleLab.PL.Data;
+using LinqConsoleLab.PL.Models;
 
 namespace LinqConsoleLab.PL.Exercises;
 
@@ -110,6 +111,11 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie05_CzyIstniejeNieaktywneZapisanie()
     {
+        var method = DaneUczelni.Zapisy
+            .Any(s => s.CzyAktywny.Equals(true));
+
+        return [$"{method}"];
+        
         throw Niezaimplementowano(nameof(Zadanie05_CzyIstniejeNieaktywneZapisanie));
     }
 
@@ -125,6 +131,14 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie06_CzyWszyscyProwadzacyMajaKatedre()
     {
+        var method1 = DaneUczelni.Prowadzacy
+                .Count();
+
+        var method2 = DaneUczelni.Prowadzacy
+            .Count(p => !p.Katedra.Equals(null));
+
+        return [$"{method1 == method2}"];
+        
         throw Niezaimplementowano(nameof(Zadanie06_CzyWszyscyProwadzacyMajaKatedre));
     }
 
@@ -139,6 +153,12 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie07_LiczbaAktywnychZapisow()
     {
+        var method = DaneUczelni.Zapisy
+            .Where(s => s.CzyAktywny.Equals(true))
+            .Count();
+
+        return [$"{method}"];
+        
         throw Niezaimplementowano(nameof(Zadanie07_LiczbaAktywnychZapisow));
     }
 
@@ -153,6 +173,13 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie08_UnikalneMiastaStudentow()
     {
+        var method = DaneUczelni.Studenci
+                .OrderBy(s => s.Miasto)
+                .Select(s => $"{s.Miasto}")
+                .Distinct();
+        
+        return method;
+        
         throw Niezaimplementowano(nameof(Zadanie08_UnikalneMiastaStudentow));
     }
 
