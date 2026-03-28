@@ -218,6 +218,13 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie10_DrugaStronaPrzedmiotow()
     {
+        var method = DaneUczelni.Przedmioty
+            .Skip(2)
+            .Take(2)
+            .Select(s => $"{s.Nazwa}");
+
+        return method;
+        
         throw Niezaimplementowano(nameof(Zadanie10_DrugaStronaPrzedmiotow));
     }
 
@@ -233,6 +240,16 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie11_PolaczStudentowIZapisy()
     {
+        var method = DaneUczelni.Studenci
+            .Join(DaneUczelni.Zapisy, s => s.Id, z => z.StudentId, (s, z) => new
+            {
+                Name = s.Imie + " " + s.Nazwisko,
+                Data = z.DataZapisu
+            })
+            .Select(s =>  $"{s.Name} {s.Data}");
+        
+        return method;
+        
         throw Niezaimplementowano(nameof(Zadanie11_PolaczStudentowIZapisy));
     }
 
@@ -249,6 +266,28 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie12_ParyStudentPrzedmiot()
     {
+        var method = DaneUczelni.Studenci
+            .SelectMany(
+                s => DaneUczelni.Zapisy
+                    .Where(z => z.StudentId == s.Id)
+                    .Join(
+                        DaneUczelni.Przedmioty,
+                        z => z.PrzedmiotId,
+                        p => p.Id,
+                        (z, p) => new
+                        {
+                            SubjectName = p.Nazwa
+                        }),
+                ((s, sname) => new
+                {
+                    Student = s.Imie + " " + s.Nazwisko,
+                    SubjectName = sname.SubjectName
+                })
+                )
+            .Select(s => $"{s.SubjectName} {s.Student}");
+        
+        return method;
+        
         throw Niezaimplementowano(nameof(Zadanie12_ParyStudentPrzedmiot));
     }
 
